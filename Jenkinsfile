@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sshagent(['jenkins-ssh-key']) {
                     sh '''
-                    ssh -o StrictHostKeyChecking=no ubuntu@34.238.233.111 <<EOF
+                    ssh -o StrictHostKeyChecking=no ubuntu@34.229.144.215 <<EOF
                     cd /var/www/webapp-automation
                     systemctl restart webapp
                     EOF

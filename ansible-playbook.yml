@@ -8,11 +8,11 @@
     project_path: "/var/www/webapp-automation"
 
   tasks:
-    - name: Update apt packages
+    - name: Update apt
       apt:
         update_cache: yes
 
-    - name: Install required packages
+    - name: Install dependencies
       apt:
         name:
           - git
@@ -20,18 +20,17 @@
           - python3-pip
         state: present
 
-    - name: Clone the GitHub repository
+    - name: Clone GitHub repo
       git:
         repo: "{{ repo_url }}"
         dest: "{{ project_path }}"
         force: yes
 
-    - name: Install Python dependencies (if requirements.txt exists)
+    - name: Install Python deps
       pip:
         requirements: "{{ project_path }}/requirements.txt"
-      when: ansible_facts['os_family'] == "Debian"
 
-    - name: Restart webapp service (systemd)
+    - name: Restart webapp
       systemd:
         name: webapp
         state: restarted

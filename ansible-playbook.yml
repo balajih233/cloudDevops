@@ -1,37 +1,17 @@
 ---
-- name: Deploy web app from GitHub
-  hosts: web
+- name: Clone GitHub Repo
+  hosts: localhost
   become: yes
 
-  vars:
-    repo_url: "https://github.com/balajih233/cloudDevops.git"
-    project_path: "/var/www/webapp-automation"
-
   tasks:
-    - name: Update apt
+    - name: Install git
       apt:
+        name: git
+        state: present
         update_cache: yes
 
-    - name: Install dependencies
-      apt:
-        name:
-          - git
-          - python3
-          - python3-pip
-        state: present
-
-    - name: Clone GitHub repo
+    - name: Clone the GitHub repository
       git:
-        repo: "{{ repo_url }}"
-        dest: "{{ project_path }}"
+        repo: https://github.com/balajih233/cloudDevops.git
+        dest: /home/ubuntu/cloudDevops
         force: yes
-
-    - name: Install Python deps
-      pip:
-        requirements: "{{ project_path }}/requirements.txt"
-
-    - name: Restart webapp
-      systemd:
-        name: webapp
-        state: restarted
-        enabled: yes
